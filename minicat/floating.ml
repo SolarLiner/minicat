@@ -5,6 +5,8 @@ module type FLOATING = sig
   val recip : t -> t
   (** Returns the reciprocal of the value. *)
 
+  val ( ** ) : t -> t -> t
+
   val pi : t
 
   val exp : t -> t

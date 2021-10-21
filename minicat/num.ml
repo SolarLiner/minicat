@@ -37,4 +37,7 @@ module Make (N : NUM) = struct
 
   (** Negation function, derived from subtracting [of_int 0]. *)
   let neg = ( - ) (of_int 0)
+
+  let rec ( ^ ) a b =
+    if b == of_int 0 then of_int 1 else a * (a ^ (b - of_int 1))
 end
