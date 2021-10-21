@@ -19,16 +19,6 @@ module Make (F : FOLDABLE) = struct
   let all pred l = fold_right (fun a -> ( && ) (pred a)) l true
 end
 
-module WithMonoid (F : FOLDABLE) (M : Monoid.MONOID) = struct
-  module M = Monoid.Make (M)
-
-  type t = M.t F.t
-
-  let fold_map f l = F.fold_right (fun x -> M.append (f x)) l M.empty
-
-  let fold = fold_map Fun.id
-end
-
 module WithNum (F : FOLDABLE) (N : Num.NUM) = struct
   type t = N.t F.t
 
