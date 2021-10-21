@@ -1,0 +1,3 @@
+(executable
+ (name effect)
+ (libraries minicat_ext))
