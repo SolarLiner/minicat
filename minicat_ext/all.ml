@@ -1,8 +1,9 @@
 open Minicat
 
-include Monoid.Make(struct
+include Monoid.Make (struct
   type t = bool
 
   let empty = true
-  let append = (&&)
+
+  let append = ( && )
 end)

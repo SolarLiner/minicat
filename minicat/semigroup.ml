@@ -4,8 +4,8 @@ module type SEMIGROUP = sig
   val append : t -> t -> t
 end
 
-module Make(S: SEMIGROUP) = struct
-include S
+module Make (S : SEMIGROUP) = struct
+  include S
 
-let (++) = append
+  let ( ++ ) = append
 end
