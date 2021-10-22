@@ -6,8 +6,8 @@ module type INTEGER = sig
   val quotrem : t -> t -> t * t
   (** Simulatenous calculation of the quotient and remainder operations. *)
 
-  val to_int : t -> int
-  (** Conversion to int *)
+  val to_string : t -> string
+  (** String representation of number, such that [to_string x |> of_string === x]. *)
 end
 
 module Make (I : INTEGER) = struct
@@ -18,7 +18,7 @@ module Make (I : INTEGER) = struct
   (** [divmod n d] is the simulatenous truncating divition and modulo operation. *)
   let divmod n d =
     let ((q, r) as qr) = quotrem n d in
-    if signum r == neg (signum d) then (q - of_int 1, r + d) else qr
+    if signum r == neg (signum d) then (q - one, r + d) else qr
 
   (** [quot n d] returns the quotient of the Euclidean division. *)
   let quot a b =
@@ -41,9 +41,8 @@ module Make (I : INTEGER) = struct
     r
 
   (** Returns the greatest common denominator between two [Integer] values. *)
-  let rec gcd a b = if b == of_int 0 then a else gcd b (a % b)
+  let rec gcd a b = if b == zero then a else gcd b (a % b)
 
   let lcm a b =
-    if b == of_int 0 || a == of_int 0 then of_int 0
-    else abs (quot a (gcd a b) * b)
+    if b == zero || a == zero then zero else abs (quot a (gcd a b) * b)
 end

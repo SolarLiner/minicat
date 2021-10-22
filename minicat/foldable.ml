@@ -20,11 +20,13 @@ module Make (F : FOLDABLE) = struct
 end
 
 module WithNum (F : FOLDABLE) (N : Num.NUM) = struct
+  open Num.Make (N)
+
   type t = N.t F.t
 
-  let sum l = F.fold_right N.add l (N.of_int 0)
+  let sum l = F.fold_right N.add l zero
 
-  let product l = F.fold_right N.mul l (N.of_int 1)
+  let product l = F.fold_right N.mul l one
 end
 
 module WithEq (F : FOLDABLE) (E : Eq.EQ) = struct

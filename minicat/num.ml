@@ -20,11 +20,16 @@ module type NUM = sig
   (* Returns the value of the sign, such that it is [of_int 1] if positive, or [of_int -1] if negative. *)
   val signum : t -> t
 
-  val of_int : int -> t
+  val of_string : string -> t
+  (** Constructs a [t] form its string representation. *)
 end
 
 module Make (N : NUM) = struct
   include N
+
+  let zero = of_string "0"
+
+  let one = of_string "1"
 
   (** Operator alias of addition. Shadows the default [+] operator of ints for convenience. *)
   let ( + ) = add
@@ -36,8 +41,7 @@ module Make (N : NUM) = struct
   let ( * ) = mul
 
   (** Negation function, derived from subtracting [of_int 0]. *)
-  let neg = ( - ) (of_int 0)
+  let neg = ( - ) zero
 
-  let rec ( ^ ) a b =
-    if b == of_int 0 then of_int 1 else a * (a ^ (b - of_int 1))
+  let rec ( ^ ) a b = if b == zero then one else a * (a ^ (b - one))
 end
