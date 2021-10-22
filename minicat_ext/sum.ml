@@ -5,7 +5,7 @@ module Make (N : Num.NUM) = Monoid.Make (struct
 
   type t = N.t
 
-  let empty = N.of_int 0
+  let empty = zero
 
   let append = ( + )
 end)
