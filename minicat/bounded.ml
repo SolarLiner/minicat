@@ -38,7 +38,8 @@ struct
   let range_to = range B.bound_min
 end
 
-(** Make extra functions for [Bounded] using a [List]. This is a specialization of [MakeUnfold] used with [List]. *)module Make (B : sig
+(** Make extra functions for [Bounded] using a [List]. This is a specialization of [MakeUnfold] used with [List]. *)
+module Make (B : sig
   include BOUNDED
 
   include Eq.EQ with type t := t

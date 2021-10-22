@@ -2,11 +2,11 @@
 module type ALTERNATIVE = sig
   include Applicative.APPLICATIVE
 
-  (** Empty container value. *)
   val empty : 'a t
+  (** Empty container value. *)
 
-  (** An alternative binary operation. *)
   val alt : 'a t -> 'a t -> 'a t
+  (** An alternative binary operation. *)
 end
 
 module Make (A : ALTERNATIVE) = struct
@@ -23,7 +23,6 @@ module Make (A : ALTERNATIVE) = struct
     include Cons.CONS with type 'a t := 'a t
   end) =
   struct
-
     (** Return zero or more results from this action. *)
     let rec many v = F.cons <$> v <*> many v
 
