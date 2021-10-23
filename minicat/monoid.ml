@@ -11,8 +11,6 @@ module Make (M : MONOID) = struct
 
   (** Functions used cojointly with a [Foldable] type. *)
   module Fold (F : Foldable.FOLDABLE) = struct
-    type t = M.t F.t
-
     (** Map values onto [M.t] before folding them *)
     let fold_map f xs = F.fold_right (fun a -> M.append (f a)) xs M.empty
 
