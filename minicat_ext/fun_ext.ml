@@ -26,3 +26,15 @@ include Arrow.Make (struct
 
   let ( *** ) f g (x, y) = (f x, g y)
 end)
+
+module MakeComonad (P : Monoid.MONOID) = Comonad.Make (struct
+  type 'a t = P.t -> 'a
+
+  let map f t x = f (t x)
+
+  let extract t = t P.empty
+
+  let duplicate f m x = f (P.append m x)
+
+  let extend f x = map f (duplicate x)
+end)
