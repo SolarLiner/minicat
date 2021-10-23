@@ -14,7 +14,12 @@ module LazyInput = struct
   let fail s = lazy (failwith s)
 
   let fold_right f (l : 'a t) (i : 'b) : 'b = f (Lazy.force l) i
+
+  let extract = Lazy.force
+
+  let extend f l = lazy (f l)
 end
 
 include Monad.Make (LazyInput)
 include Foldable.Make (LazyInput)
+include Comonad.Make (LazyInput)
