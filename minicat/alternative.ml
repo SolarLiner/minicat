@@ -1,6 +1,6 @@
-(** Alternative functors are [Applicative] functors that can combine themselves. They can be seen as the [Monoid] of container types. *)
+(** Alternative monads are monads that can select between two choices. They can be seen as the [Monoid] of container types. *)
 module type ALTERNATIVE = sig
-  include Applicative.APPLICATIVE
+  include Monad.MONAD
 
   val empty : 'a t
   (** Empty container value. *)
@@ -11,7 +11,7 @@ end
 
 module Make (A : ALTERNATIVE) = struct
   include A
-  include Applicative.Make (A)
+  include Monad.Make (A)
 
   (** Operator alias of [A.alt]. *)
   let ( <|> ) = alt
@@ -23,11 +23,16 @@ module Make (A : ALTERNATIVE) = struct
     include Cons.CONS with type 'a t := 'a t
   end) =
   struct
-    (** Return zero or more results from this action. *)
-    let rec many v = F.cons <$> v <*> many v
+    (** Return zero of more results from this action. *)
+    let rec many v = many1 v <|> pure F.empty
 
-    (** Return one of more results from this action. *)
-    let many1 v = many v <|> pure F.empty
+    (** Return one or more results from this action. *)
+    and many1 v =
+      let> r = v in
+      let> rs = many v in
+      return (F.cons r rs)
+
+    let anyof vs = F.fold_right ( <|> ) vs empty
   end
 
   include Fold (struct

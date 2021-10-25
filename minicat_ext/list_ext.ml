@@ -1,6 +1,6 @@
 open Minicat
 
-include Monad.Make (struct
+module MonadList = Monad.Make (struct
   include List
 
   let pure a = [ a ]
@@ -11,6 +11,16 @@ include Monad.Make (struct
     | [], _ | _, [] -> []
 
   let rec bind xs f = match xs with x :: xs -> f x @ bind xs f | [] -> []
+end)
+
+include MonadList
+
+include Alternative.Make (struct
+  include MonadList
+
+  let empty = []
+
+  let alt a b = List.concat [ a; b ]
 end)
 
 include Foldable.Make (List)
