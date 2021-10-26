@@ -1,9 +1,12 @@
-(** Alternative monads are monads that can select between two choices. They can be seen as the [Monoid] of container types. *)
+(** Alternative monads are monads that can select between two choices or else recover from a fail state. They can be seen as the [Monoid] of container types. *)
 module type ALTERNATIVE = sig
   include Monad.MONAD
 
   val empty : 'a t
   (** Empty container value. *)
+
+  val fail : string -> 'a t
+  (** Fail within the monad. This can be set to [Fun.const empty] raising exceptions is not explicitely supported (and instead relies on a sentinel value to detect errors) *)
 
   val alt : 'a t -> 'a t -> 'a t
   (** An alternative binary operation. *)
@@ -15,6 +18,15 @@ module Make (A : ALTERNATIVE) = struct
 
   (** Operator alias of [A.alt]. *)
   let ( <|> ) = alt
+
+  let guard ?message:m pred =
+    let> c = pred in
+    if c then return ()
+    else
+      fail
+        (match m with
+        | Some m -> "Guard triggered: " ^ m
+        | None -> "Guard triggered")
 
   (** Module functors of functions that use a [Foldable] type. A specialized version is included in the parent module generated with [List] from this module functor. *)
   module Fold (F : sig

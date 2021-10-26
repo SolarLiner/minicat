@@ -8,14 +8,6 @@ module type MONAD = sig
   (** [bind m f] computes m, takes its result and applies it to [m]. *)
 end
 
-(** A faillible monad, that can represent failures in computation *as part of the monad*
-    and not by raising an exception. *)
-module type MONAD_FAIL = sig
-  include MONAD
-
-  val fail : string -> 'a t
-end
-
 module Make (M : MONAD) = struct
   include M
   include Applicative.Make (M)
