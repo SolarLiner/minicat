@@ -1,25 +1,21 @@
-open Minicat
+type 'a t = 'a Lazy.t
 
-module LazyInput = struct
-  type 'a t = 'a Lazy.t
+let empty = lazy (failwith "empty")
 
-  let map f x = lazy (f (Lazy.force x))
+let fail s = lazy (failwith s)
 
-  let pure a = lazy a
+let map f x = lazy (f (Lazy.force x))
 
-  let app lf lx = lazy (Lazy.force lx |> Lazy.force lf)
+let pure a = lazy a
 
-  let bind m f : 'b t = Lazy.force m |> f
+let app lf lx = lazy (Lazy.force lx |> Lazy.force lf)
 
-  let fail s = lazy (failwith s)
+let bind m f : 'b t = Lazy.force m |> f
 
-  let fold_right f (l : 'a t) (i : 'b) : 'b = f (Lazy.force l) i
+let alt a b = lazy (try Lazy.force a with _ -> Lazy.force b)
 
-  let extract = Lazy.force
+let fold_right f (l : 'a t) (i : 'b) : 'b = f (Lazy.force l) i
 
-  let extend f l = lazy (f l)
-end
+let extract = Lazy.force
 
-include Monad.Make (LazyInput)
-include Foldable.Make (LazyInput)
-include Comonad.Make (LazyInput)
+let extend f l = lazy (f l)

@@ -1,9 +1,5 @@
-open Minicat
+type t = unit
 
-include Monoid.Make (struct
-  type t = unit
+let empty = ()
 
-  let empty = ()
-
-  let append _ _ = ()
-end)
+let append _ _ = ()

@@ -1,25 +1,20 @@
-open Minicat
-include Cons.Make (Seq)
+type 'a t = 'a Seq.t
 
-include Monad.Make (struct
-  include Seq
+let fail _ = Seq.empty
 
-  let pure a = Seq.cons a Seq.empty
+let empty = Seq.empty
 
-  let app f xs = Seq.flat_map (fun f -> Seq.flat_map (fun x -> pure (f x)) xs) f
+let map = Seq.map
 
-  let bind m f = Seq.flat_map f m
-end)
+let pure a = Seq.cons a Seq.empty
 
-include Foldable.Make (struct
-  include Seq
+let app f xs = Seq.flat_map (fun f -> Seq.flat_map (fun x -> pure (f x)) xs) f
 
-  let rec fold_right f l i =
-    match l () with Seq.Nil -> i | Seq.Cons (x, xs) -> f x (fold_right f xs i)
-end)
+let bind m f = Seq.flat_map f m
 
-include Unfoldable.Make (struct
-  include Seq
+let alt a b = Seq.concat (Seq.cons a (Seq.cons b empty))
 
-  let unfold_right = Seq.unfold
-end)
+let rec fold_right f l i =
+  match l () with Seq.Nil -> i | Seq.Cons (x, xs) -> f x (fold_right f xs i)
+
+let unfold_right = Seq.unfold

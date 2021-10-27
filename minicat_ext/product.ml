@@ -1,7 +1,7 @@
 open Minicat
 
-module Product (N : Num.NUM) = struct
-  open Num.Make (N)
+module Make (N : Num.NUM) : Monoid.MONOID with type t = N.t = struct
+  include Num.Make (N)
 
   let empty = one
 

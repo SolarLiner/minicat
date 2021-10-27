@@ -1,9 +1,8 @@
 open Minicat
 
-module MakeMonad (P : sig
+module Monad (P : sig
   type t
-end) =
-Monad.Make (struct
+end) : Monad.MONAD = struct
   type 'a t = P.t -> 'a
 
   let map f g x = f (g x)
@@ -13,21 +12,19 @@ Monad.Make (struct
   let app f g x = f x (g x)
 
   let bind m k r = k (m r) r
-end)
+end
 
-include Arrow.Make (struct
-  type ('a, 'b) t = 'a -> 'b
+type ('a, 'b) t = 'a -> 'b
 
-  let id = Fun.id
+let id = Fun.id
 
-  let compose f g x = f (g x)
+let compose f g x = f (g x)
 
-  let arr = Fun.id
+let arr = Fun.id
 
-  let ( *** ) f g (x, y) = (f x, g y)
-end)
+let ( *** ) f g (x, y) = (f x, g y)
 
-module MakeComonad (P : Monoid.MONOID) = Comonad.Make (struct
+module Comonad (P : Monoid.MONOID) : Comonad.COMONAD = struct
   type 'a t = P.t -> 'a
 
   let map f t x = f (t x)
@@ -37,4 +34,4 @@ module MakeComonad (P : Monoid.MONOID) = Comonad.Make (struct
   let duplicate f m x = f (P.append m x)
 
   let extend f x = map f (duplicate x)
-end)
+end

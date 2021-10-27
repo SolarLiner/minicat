@@ -1,11 +1,9 @@
 open Minicat
 
-module MakeInner (M : Monad.MONAD) = struct
+module Make (M : Monad.MONAD) = struct
   open Monad.Make (M)
 
-  type ('a, 'b) kleisli = K of ('a -> 'b M.t)
-
-  type ('a, 'b) t = ('a, 'b) kleisli
+  type ('a, 'b) t = K of ('a -> 'b M.t)
 
   let id = K return
 
@@ -19,24 +17,17 @@ module MakeInner (M : Monad.MONAD) = struct
         let> x' = f x in
         let> y' = g y in
         pure (x', y'))
-end
-
-module Make (M : Monad.MONAD) = struct
-  open MakeInner (M)
-
-  include Arrow.Make (MakeInner (M))
 
   let make f = K f
 
   let run (K f) x = f x
 end
 
-module MakeMonad
+module Monad
     (M : Monad.MONAD) (A : sig
       type t
-    end) =
-Monad.Make (struct
-  module K = MakeInner (M)
+    end) : Monad.MONAD = struct
+  module K = Make (M)
 
   type 'a t = (A.t, 'a) K.t
 
@@ -54,4 +45,4 @@ Monad.Make (struct
       k' x
     in
     K kinner
-end)
+end

@@ -1,26 +1,23 @@
-open Minicat
+include List
 
-module MonadList = Monad.Make (struct
-  include List
+let empty = []
 
-  let pure a = [ a ]
+let pure a = [ a ]
 
-  let rec app fs xs =
-    match (fs, xs) with
-    | f :: fs, x :: xs -> f x :: app fs xs
-    | [], _ | _, [] -> []
+let rec app fs xs =
+  match (fs, xs) with
+  | f :: fs, x :: xs -> f x :: app fs xs
+  | [], _ | _, [] -> []
 
-  let rec bind xs f = match xs with x :: xs -> f x @ bind xs f | [] -> []
-end)
+let rec bind xs f = match xs with x :: xs -> f x @ bind xs f | [] -> []
 
-include MonadList
+let rec unfold_right f i =
+  match f i with Some (r, n) -> r :: unfold_right f n | None -> []
 
-include Alternative.Make (struct
-  include MonadList
+let fail _ = []
 
-  let empty = []
+let alt a b = List.concat [ a; b ]
 
-  let alt a b = List.concat [ a; b ]
-end)
+let extract = List.hd
 
-include Foldable.Make (List)
+let extend f (xs : 'a t) = pure (f xs)

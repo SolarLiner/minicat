@@ -1,9 +1,5 @@
-open Minicat
+type t = String.t
 
-include Monoid.Make (struct
-  type t = String.t
+let empty = ""
 
-  let empty = ""
-
-  let append = ( ^ )
-end)
+let append = ( ^ )

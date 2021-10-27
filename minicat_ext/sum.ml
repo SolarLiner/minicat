@@ -1,6 +1,6 @@
 open Minicat
 
-module Make (N : Num.NUM) = Monoid.Make (struct
+module Make (N : Num.NUM) : Monoid.MONOID with type t = N.t = struct
   open Num.Make (N)
 
   type t = N.t
@@ -8,4 +8,4 @@ module Make (N : Num.NUM) = Monoid.Make (struct
   let empty = zero
 
   let append = ( + )
-end)
+end
