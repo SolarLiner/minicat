@@ -20,10 +20,10 @@ module Make (F : FUNCTOR) = struct
   (** Left-biased map operation, that is, replace all values of the container with the provided value. *)
   let ( <$ ) x = map (Fun.const x)
 
-  (** Functor value binding, that is, [let$ x = xs in ...] binds [x] to all values of [xs].
+  (** Functor value binding, that is, [let+ x = xs in ...] binds [x] to all values of [xs].
       This binding is non-flattening, which means every new binding will introduce a level of
       nesting in the resulting type. *)
-  let ( let$ ) xs f = f <$> xs
+  let ( let+ ) xs f = f <$> xs
 
   (** Specialization of [(<$)] that replaces all values of [t] by [()]. *)
   let void xs = () <$ xs

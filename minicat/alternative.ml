@@ -20,7 +20,7 @@ module Make (A : ALTERNATIVE) = struct
   let ( <|> ) = alt
 
   let guard ?message:m pred =
-    let> c = pred in
+    let* c = pred in
     if c then return ()
     else
       fail
@@ -40,8 +40,8 @@ module Make (A : ALTERNATIVE) = struct
 
     (** Return one or more results from this action. *)
     and many1 v =
-      let> r = v in
-      let> rs = many v in
+      let* r = v in
+      let* rs = many v in
       return (F.cons r rs)
 
     let anyof vs = F.fold_right ( <|> ) vs empty

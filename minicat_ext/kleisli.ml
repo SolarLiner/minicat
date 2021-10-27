@@ -14,8 +14,8 @@ module Make (M : Monad.MONAD) = struct
   let ( *** ) (K f) (K g) =
     K
       (fun (x, y) ->
-        let> x' = f x in
-        let> y' = g y in
+        let* x' = f x in
+        let* y' = g y in
         pure (x', y'))
 
   let make f = K f
@@ -40,7 +40,7 @@ module Monad
   let bind (K.K f) k : 'b t =
     let open Monad.Make (M) in
     let kinner x =
-      let> a = f x in
+      let* a = f x in
       let (K.K k') = k a in
       k' x
     in

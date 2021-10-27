@@ -15,9 +15,9 @@ module Make (M : MONAD) = struct
   (** Alias of [Applicative.APPLICATIVE.pure] for those who are too familiar with Haskell ;) *)
   let return = pure
 
-  (** [let> x = m in ...] binds the result of [m] to [x]. It is strictly equivalent of [m >>= (fun x -> ...)] but offers nicer
+  (** [let* x = m in ...] binds the result of [m] to [x]. It is strictly equivalent of [m >>= (fun x -> ...)] but offers nicer
       syntax within OCaml. *)
-  let ( let> ) = bind
+  let ( let* ) = bind
 
   (** Maybe the most infamous functional programming operator, defined as an alias to [M.bind]. *)
   let ( >>= ) = bind
@@ -30,7 +30,7 @@ module Make (M : MONAD) = struct
 
   (** [join ms] flattens a level of monads. It can be seen as a "concatenation" of the monad. *)
   let join ms =
-    let> m = ms in
+    let* m = ms in
     m
 
   (** Functions using a [Foldable] type as part of their computation. A specialization using [List] is included in the module, generated from this module functor. *)
