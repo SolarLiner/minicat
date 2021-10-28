@@ -28,6 +28,10 @@ module Make (A : ALTERNATIVE) = struct
         | Some m -> "Guard triggered: " ^ m
         | None -> "Guard triggered")
 
+  let opt x = x <|> A.empty
+
+  let choice xs = List.fold_right alt xs empty
+
   (** Module functors of functions that use a [Foldable] type. A specialized version is included in the parent module generated with [List] from this module functor. *)
   module Fold (F : sig
     include Foldable.FOLDABLE

@@ -1,12 +1,8 @@
-type 'a t = 'a Seq.t
-
-let fail _ = Seq.empty
-
-let empty = Seq.empty
-
-let map = Seq.map
+include Seq
 
 let pure a = Seq.cons a Seq.empty
+
+let fail _ = Seq.empty
 
 let app f xs = Seq.flat_map (fun f -> Seq.flat_map (fun x -> pure (f x)) xs) f
 
