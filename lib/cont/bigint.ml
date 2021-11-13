@@ -24,7 +24,7 @@ module Inner = struct
     |> Bytes.to_string
 
   let stob s =
-    String.to_bytes s
+    Bytes.of_string s
     |> Bytes.map (fun c -> int_of_char c - int_of_char '0' |> char_of_int)
   (* |> normalize *)
 

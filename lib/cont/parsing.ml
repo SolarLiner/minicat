@@ -215,10 +215,10 @@ module Expr = struct
     | Postfix op -> { acc with postfix = op :: acc.postfix }
 
   let term_p prefix term postfix =
-    let* prefix in
-    let* term in
-    let+ postfix in
-    postfix (prefix term)
+    let* pre = prefix in
+    let* t = term in
+    let+ post = postfix in
+    post (pre t)
 
   let rec rassoc_parser1 x rop pre term post =
     rassoc_parser x rop pre term post <|> pure x
