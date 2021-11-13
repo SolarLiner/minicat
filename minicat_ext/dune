@@ -1,4 +1,0 @@
-(library
- (name minicat_ext)
- (public_name minicat_ext)
- (libraries minicat))

@@ -1,0 +1,4 @@
+(library
+ (name minicat_cont)
+ (public_name minicat.cont)
+ (libraries minicat.core minicat.ext))

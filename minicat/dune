@@ -1,5 +1,0 @@
-(library
- (public_name minicat)
- (name minicat))
-
-(include_subdirs unqualified)
