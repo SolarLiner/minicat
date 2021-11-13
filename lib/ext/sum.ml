@@ -1,4 +1,4 @@
-open Minicat
+open Minicat_core
 
 module Make (N : Num.NUM) : Monoid.MONOID with type t = N.t = struct
   open Num.Make (N)

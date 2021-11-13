@@ -1,4 +1,4 @@
-open Minicat
+open Minicat_core
 
 include Monad.MONAD with type 'a t = 'a option
 

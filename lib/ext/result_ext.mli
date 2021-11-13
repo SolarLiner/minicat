@@ -4,4 +4,4 @@ module Make : functor
 
      val of_string : string -> t
    end)
-  -> Minicat.Alternative.ALTERNATIVE
+  -> Minicat_core.Alternative.ALTERNATIVE

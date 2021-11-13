@@ -1,4 +1,4 @@
-open Minicat
+open Minicat_core
 
 module Make (E : sig
   type t

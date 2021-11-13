@@ -1,4 +1,4 @@
-open Minicat
+open Minicat_core
 
 module Monad (P : sig
   type t

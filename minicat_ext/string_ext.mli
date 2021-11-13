@@ -1,1 +1,0 @@
-include Minicat.Monoid.MONOID with type t = string

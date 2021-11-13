@@ -1,4 +1,4 @@
-open Minicat
+open Minicat_core
 
 module Make (M : Monad.MONAD) = struct
   open Monad.Make (M)
