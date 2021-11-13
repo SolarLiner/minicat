@@ -14,7 +14,7 @@
         license = licenses.mit;
       };
     in
-    {
+    rec {
       packages.minicat = pkgs.ocamlPackages.buildDunePackage {
         pname = "minicat";
         version = "1.0.0";
@@ -22,6 +22,6 @@
         useDune2 = true;
         inherit meta;
       };
-      defaultPackage = self.packages.minicat;
+      defaultPackage = packages.minicat;
     });
 }
