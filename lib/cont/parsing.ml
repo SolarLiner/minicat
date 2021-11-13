@@ -1,4 +1,4 @@
-open Minicat
+open Minicat_core
 
 module Inner = struct
   type stream = char Lazylist.t

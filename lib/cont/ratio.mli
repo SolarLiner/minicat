@@ -1,5 +1,7 @@
-module Make : functor (I : Minicat.Integer.INTEGER) -> sig
-  include Minicat.Integer.INTEGER
+open Minicat_core
+
+module Make : functor (I : Integer.INTEGER) -> sig
+  include Integer.INTEGER
 
   val of_string : string -> t
 

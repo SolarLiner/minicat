@@ -1,4 +1,4 @@
-open Minicat
+open Minicat_core
 
 module Make (I : Integer.INTEGER) : sig
   include Integer.INTEGER
